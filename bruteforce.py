@@ -2,7 +2,6 @@ import csv
 from operator import itemgetter
 
 possibilities = []
-numbers = [1,5,4,2,3,6,11,22]
 actions = []
 costs = []
 rewards = []
@@ -29,8 +28,6 @@ def all_sums(numbers, max, liste=[]):
         rest = numbers[i+1:]
         all_sums(rest, max, liste + [number]) 
 
-# all_sums(numbers=numbers,max=10,liste=[])
-
 for action in actions:
     costs.append(int(action[1]))
     rewards.append((int(action[1])*int(action[2]))/100)
@@ -46,9 +43,12 @@ for ind, possibility in enumerate(possibilities):
                 possibilities[ind][index] = rewards[act_index]
                 first.append(action[0])
                 break
-    sum_action.append([first,sum(possibility)])
+    sum_action.append([first,round(sum(possibility),2)])
 
 sum_action = sorted(sum_action, key=itemgetter(1),reverse=True)
 
 for i in range(10):
-    print(sum_action[i])
+    print('Les actions ',end='')
+    for j in range(len(sum_action[i][0])):
+        print('/' + sum_action[i][0][j], end='')
+    print(' donnent un rendement de {} € \n'.format(sum_action[i][1]))
