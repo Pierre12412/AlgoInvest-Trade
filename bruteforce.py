@@ -5,7 +5,7 @@ numbers = [1,5,4,2,3,6,11,22]
 actions = []
 costs = []
 rewards = []
-sums = []
+sum_action = []
 
 
 with open('actions.csv', newline='') as csvfile:
@@ -36,13 +36,14 @@ for action in actions:
 
 all_sums(costs,500)
 
+first = []
 for ind, possibility in enumerate(possibilities):
+    first = []
     for index, item in enumerate(possibility):
         for act_index, action in enumerate(actions):
             if int(action[1]) == item:
                 possibilities[ind][index] = rewards[act_index]
+                first.append(action[0])
                 break
-    sums.append(sum(possibility))
+    sum_action.append([first,sum(possibility)])
 
-sums.sort(reverse=True)
-print(str(sums[0]) + '\n')
