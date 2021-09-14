@@ -1,4 +1,5 @@
 import csv
+from operator import itemgetter
 
 possibilities = []
 numbers = [1,5,4,2,3,6,11,22]
@@ -47,3 +48,7 @@ for ind, possibility in enumerate(possibilities):
                 break
     sum_action.append([first,sum(possibility)])
 
+sum_action = sorted(sum_action, key=itemgetter(1),reverse=True)
+
+for i in range(10):
+    print(sum_action[i])
