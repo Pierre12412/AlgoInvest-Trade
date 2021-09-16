@@ -1,7 +1,7 @@
 import csv
 from operator import itemgetter, pos
 
-max = 600
+max = 500
 possibilities = []
 costs = []
 somme = []
