@@ -1,5 +1,5 @@
 import csv
-from operator import itemgetter, pos
+from operator import itemgetter
 
 max = 500
 possibilities = []
@@ -44,32 +44,28 @@ def replace():
 
 
 # Open file with data and put it in 'actions'
-with open('actions.csv', newline='') as csvfile:
-    reader = csv.reader(csvfile, delimiter=';', quotechar=',')
-    for row in reader:
-        if row[0] != '' and row[1] != 'price' and float(row[1]) >= 1:
-            row[2] = float(row[2])
-            row[1] = float(row[1])
-            row.append(round(row[1]*row[2]/100,2))
-            actions.append(row)
+with open('actions4.csv', newline='') as csvfile:
+    try:
+        reader = csv.reader(csvfile, delimiter=';', quotechar=',')
+        for row in reader:
+            if row[0] != '' and row[1] != 'price' and float(row[1]) >= 1:
+                row[2] = float(row[2])
+                row[1] = float(row[1])
+                row.append(round(row[1]*row[2]/100,2))
+                actions.append(row)
+    except:
+        reader = csv.reader(csvfile, delimiter=',', quotechar=',')
+        for row in reader:
+            if row[0] != '' and row[1] != 'price' and float(row[1]) >= 1:
+                row[2] = float(row[2])
+                row[1] = float(row[1])
+                row.append(round(row[1]*row[2]/100,2))
+                actions.append(row)
 
 # Sort actions with their percentage of interests
 actions = sorted(actions, key=itemgetter(2),reverse=True)
 actions2 = sorted(actions, key=itemgetter(3),reverse=True)
 actions3 = sorted(actions, key=itemgetter(1),reverse=True)
-
-actions4 = []
-tot = 0
-for ind,item in enumerate(actions):
-    for index,item2 in enumerate(actions2):
-        if item[0] == item2[0]:
-            actions4.append([ind+index,item[0]])
-for index,item3 in enumerate(actions3):
-    for action in actions4:
-        if action[1] == item3[0]:
-            action[0] += index
-
-
 
 # Put all costs in a list 'costs'
 for action in actions:
@@ -100,14 +96,16 @@ for percentages in percentage_sum:
 if len(percentage_sum) != 0:
     res = sorted(percentage_sum,key=itemgetter(0),reverse=True)[0]
 
-    # Add interests of the rest to global interests
-    for action in actions:
-        for act in res[2]:
-            if action[0] == act:
-                interests += action[3]
-                result.append(action[0])
+# Add interests of the rest to global interests
+for action in actions:
+    for act in res[2]:
+        if action[0] == act:
+            interests += action[3]
+            result.append(action[0])
 
-for i in range(10):
+# If in ten most expensive actions there is an action
+# with better interests, choose only it
+for i in range(len(actions)):
     if actions3[i][3] > interests and actions3[i][1] < max:
         interests = actions3[i][3]
         total = actions3[i][1]
