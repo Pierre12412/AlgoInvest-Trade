@@ -1,5 +1,7 @@
 import csv
 from operator import itemgetter
+import time
+start_time = time.time()
 
 max = 500
 possibilities = []
@@ -44,7 +46,7 @@ def replace():
 
 
 # Open file with data and put it in 'actions'
-with open('actions.csv', newline='') as csvfile:
+with open('actions4.csv', newline='') as csvfile:
     try:
         reader = csv.reader(csvfile, delimiter=';', quotechar=',')
         for row in reader:
@@ -117,3 +119,4 @@ for i in range(len(actions)):
 print(result)
 print(total)
 print(round(interests,2))
+print("--- %s seconds ---" % (time.time() - start_time))

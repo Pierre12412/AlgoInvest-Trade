@@ -1,5 +1,7 @@
 import csv
 from operator import itemgetter
+import time
+start_time = time.time()
 
 possibilities = []
 actions = []
@@ -61,3 +63,5 @@ for i in range(10):
     for j in range(len(sum_action[i][0])):
         print('/' + sum_action[i][0][j], end='')
     print(' donnent un rendement de {} € \n'.format(sum_action[i][1]))
+
+print("--- %s seconds ---" % (time.time() - start_time))
